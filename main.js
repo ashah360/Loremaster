@@ -2,7 +2,7 @@ const fs = require('fs');
 const os = require('os');
 const { Worker } = require('worker_threads');
 
-const WORKER_COUNT = os.cpus.length;
+const WORKER_COUNT = os.cpus().length;
 
 const parseAccounts = () => {
   const accounts = fs.readFileSync('./accounts.txt', { encoding: 'utf-8' });
