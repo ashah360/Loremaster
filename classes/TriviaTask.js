@@ -3,6 +3,7 @@ const cheerio = require('cheerio');
 const answers = require('../util/answers');
 const chalk = require('chalk');
 const fs = require('fs');
+const path = require('path');
 const EventEmitter = require('events').EventEmitter;
 
 class TriviaTask extends EventEmitter {
@@ -151,7 +152,10 @@ class TriviaTask extends EventEmitter {
         ...this.options,
       });
       const buffer = Buffer.from(res, 'utf8');
-      fs.writeFileSync(`./captchas/${this.id}.png`, buffer);
+      fs.writeFileSync(
+        path.join(__dirname, '../captchas', `${this.id}.png`),
+        buffer
+      );
       this.emit('captcha');
     } catch (error) {
       return Promise.reject(error);
@@ -164,7 +168,9 @@ class TriviaTask extends EventEmitter {
         method: 'POST',
         url: 'https://api.amusingthrone.com/wizard101/v1/captcha',
         formData: {
-          img: fs.createReadStream(`./captchas/${this.id}.png`),
+          img: fs.createReadStream(
+            path.join(__dirname, '../captchas', `${this.id}.png`)
+          ),
         },
       });
 
