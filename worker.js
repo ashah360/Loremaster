@@ -1,5 +1,6 @@
 const { parentPort, workerData } = require('worker_threads');
 const Task = require('./classes/TriviaTask');
+const api_key = process.env.CAPTCHA_API_KEY
 
 const { accountList } = workerData;
 
@@ -17,7 +18,7 @@ const quizzes = [
 ];
 
 const spawnTask = async (username, password) => {
-  const tasks = quizzes.map((quiz) => new Task(quiz, username, password));
+  const tasks = quizzes.map((quiz) => new Task(quiz, username, password, api_key));
 
   await Promise.all(tasks.map(async (task) => await task.start()));
 };
