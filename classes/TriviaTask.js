@@ -7,7 +7,7 @@ const path = require('path');
 const EventEmitter = require('events').EventEmitter;
 
 class TriviaTask extends EventEmitter {
-  constructor(slug, username, password) {
+  constructor(slug, username, password, api_key) {
     super();
 
     // Variables
@@ -15,6 +15,7 @@ class TriviaTask extends EventEmitter {
     this.slug = slug;
     this.username = username;
     this.password = password;
+    this.api_key = api_key;
     this.jar = request.jar();
     this.done = false;
     this.taskHeaders = {
@@ -166,8 +167,9 @@ class TriviaTask extends EventEmitter {
     try {
       const result = await request({
         method: 'POST',
-        url: 'https://api.amusingthrone.com/wizard101/v1/captcha',
+        url: 'https://api.amusingthrone.com/wizard101/v2/captcha',
         formData: {
+          key: this.api_key,
           img: fs.createReadStream(
             path.join(__dirname, '../captchas', `${this.id}.png`)
           ),

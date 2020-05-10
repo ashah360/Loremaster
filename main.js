@@ -1,3 +1,4 @@
+require('dotenv').config()
 const fs = require('fs');
 const os = require('os');
 const { Worker } = require('worker_threads');
